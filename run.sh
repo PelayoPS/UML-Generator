@@ -6,5 +6,5 @@ rm -rf uml_output/*
 xdg-open http://localhost:8080
 
 # Iniciar demo.jar
-java -jar demo.jar
+java -jar build/libs/app.jar
 

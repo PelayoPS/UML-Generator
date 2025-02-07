@@ -27,6 +27,6 @@ application {
 }
 
 bootJar {
-    archiveFileName = 'demo.jar'
+    archiveFileName = 'app.jar'
 }
 
