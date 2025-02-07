@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}">UML generator</title>
+</head>
+<body>
+    <h1 th:text="${title}">UML generator</h1>
+    <p th:text="${description}">Sube tu proyecto en formato .zip para generar el UML</p>
+    <form method="post" enctype="multipart/form-data" action="/upload">
+        <input type="file" name="file" placeholder="Selecciona un archivo .zip" />
+        <button type="submit">Generar</button>
+    </form>
+    <p th:text="${message}"></p>
+    <div th:if="${diagramUrl}">
+        <h2>Diagrama UML:</h2>
+        <img th:src="@{${diagramUrl}}" alt="Diagrama UML" />
+    </div>
+</body>
+</html>
