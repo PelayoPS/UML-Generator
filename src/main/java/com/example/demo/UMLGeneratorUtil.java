@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 /**
  * Clase UMLGeneratorUtil para manejar la carga y descompresión de archivos.
+ * 
+ * @author @PelayoPS
  */
 public class UMLGeneratorUtil {
 

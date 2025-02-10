@@ -20,6 +20,8 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 /**
  * Clase UMLGenerator para generar diagramas UML a partir del código fuente
  * Java.
+ * 
+ * @autor @PelayoPS
  */
 public class UMLGenerator {
     private static final List<String> classes = new ArrayList<>();
