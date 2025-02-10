@@ -74,7 +74,7 @@ set CLASSPATH=%APP_HOME%\lib\UML-Generator-1.0-plain.jar;%APP_HOME%\lib\spring-b
 
 
 @rem Execute UML-Generator
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %UML_GENERATOR_OPTS%  -classpath "%CLASSPATH%" com.example.demo.DemoApplication %*
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %UML_GENERATOR_OPTS%  -classpath "%CLASSPATH%" com.example.demo.Application %*
 
 :end
 @rem End local scope for the variables with windows NT shell

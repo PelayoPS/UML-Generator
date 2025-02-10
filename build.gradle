@@ -23,7 +23,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'com.example.demo.DemoApplication'
+    mainClass = 'com.example.demo.Application'
 }
 
 bootJar {
