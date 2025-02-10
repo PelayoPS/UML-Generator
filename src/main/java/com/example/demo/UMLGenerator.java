@@ -36,6 +36,10 @@ public class UMLGenerator {
      * @throws Exception Si ocurre un error durante el procesamiento.
      */
     public static void run(String path) throws Exception {
+        // Limpiar las listas antes de procesar un nuevo archivo
+        classes.clear();
+        relationships.clear();
+        
         UMLGenerator.path = path;
         File srcFolder = new File(path);
         processDirectory(srcFolder);

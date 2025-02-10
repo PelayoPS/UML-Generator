@@ -23,8 +23,8 @@ public class DemoApplication implements WebMvcConfigurer {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("title", "UML generator");
-        model.addAttribute("description", "Sube tu proyecto en formato .zip para generar el UML");
+        model.addAttribute("title", "UML Generator");
+        model.addAttribute("description", "Genera diagramas UML profesionales a partir de tu código fuente Java. Simplemente sube tu proyecto en formato .zip y obtén una visualización clara y detallada de tu arquitectura.");
         return "index";
     }
 
@@ -36,6 +36,7 @@ public class DemoApplication implements WebMvcConfigurer {
 
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
+        model.addAttribute("title", "UML Generator");
         if (file.isEmpty()) {
             model.addAttribute("message", "Por favor, selecciona un archivo para subir.");
             return "index";
@@ -57,7 +58,6 @@ public class DemoApplication implements WebMvcConfigurer {
 
             // Agregar la url de la imagen generada al modelo
             model.addAttribute("diagramUrl", "/uml_output/diagrama.svg");
-            model.addAttribute("message", "Archivo subido y procesado exitosamente.");
         } catch (IOException e) {
             model.addAttribute("message", "Error al subir el archivo: " + e.getMessage());
         } catch (Exception e) {
