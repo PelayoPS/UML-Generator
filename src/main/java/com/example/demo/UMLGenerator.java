@@ -41,7 +41,7 @@ public class UMLGenerator {
         // Limpiar las listas antes de procesar un nuevo archivo
         classes.clear();
         relationships.clear();
-        
+
         UMLGenerator.path = path;
         File srcFolder = new File(path);
         processDirectory(srcFolder);
@@ -281,6 +281,7 @@ public class UMLGenerator {
         }
         FileWriter writer = new FileWriter(new File(outputDir, "diagrama.puml"));
         writer.write("@startuml diagrama\n");
+        createSkin(writer);
         for (String clazz : classes)
             writer.write(clazz + "\n");
         for (String rel : relationships)
@@ -312,5 +313,17 @@ public class UMLGenerator {
             System.err.println("Error al ejecutar el comando plantuml: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Crea la configuración de estilo para el diagrama PlantUML.
+     * 
+     * @param writer El escritor de archivos.
+     * @throws IOException Si ocurre un error durante la escritura del archivo.
+     */
+    private static void createSkin(FileWriter writer) throws IOException {
+        writer.write("!theme mono\n");
+        writer.write("skinparam linetype ortho\n");
+        writer.write("skinparam monochrome true\n");
     }
 }

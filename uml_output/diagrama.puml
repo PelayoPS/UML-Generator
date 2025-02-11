@@ -1,4 +1,6 @@
 @startuml diagrama
+!theme mono
+skinparam linetype ortho
 class Bot {
 - logger : Logger
 + jda : JDA
@@ -117,6 +119,104 @@ class Utils {
 + formatPenaltyMessage(String userName, String action) : String
 + formatDuration(long duration) : String
 }
+class OnMemberJoin {
++ onGuildMemberJoin(GuildMemberJoinEvent event) : void
+}
+class OnReady {
++ onReady(ReadyEvent event) : void
+}
+class SlashCommandListener {
+- commandManager : CommandManager
++ onSlashCommandInteraction(SlashCommandInteractionEvent event) : void
+}
+class Bot {
++ main(String[] args) : void
+}
+class CommandManager {
+- commandsHashMap : HashMap<String,ISlashCommand>
+- logConsole : ILogger<String>
++ addCommands(JDA jda) : void
++ executeCommand(SlashCommandInteractionEvent event) : void
++ getLogger() : ILogger<String>
+}
+interface ISlashCommand {
++ getSlashInfo() : SlashCommandData
++ execute(SlashCommandInteractionEvent event) : void
++ getHelp() : String
++ getCode() : Code
+}
+class Shutdown {
+- code : Code
++ getSlashInfo() : SlashCommandData
++ execute(SlashCommandInteractionEvent event) : void
++ getHelp() : String
++ getCode() : Code
+}
+class Uptime {
+- code : Code
++ getSlashInfo() : SlashCommandData
++ execute(SlashCommandInteractionEvent event) : void
++ getHelp() : String
++ getCode() : Code
+}
+interface SlashCommand {
++ getSlashInfo() : SlashCommandData
++ execute(SlashCommandInteractionEvent event) : void
+}
+class Avatar {
+- code : Code
++ getSlashInfo() : SlashCommandData
++ execute(SlashCommandInteractionEvent event) : void
++ getHelp() : String
++ getCode() : Code
+- addOptions(SlashCommandData slashCommandData) : void
+}
+class Banner {
+- code : Code
++ getSlashInfo() : SlashCommandData
++ execute(SlashCommandInteractionEvent event) : void
++ getHelp() : String
++ getCode() : Code
+- addOptions(SlashCommandData slashCommandData) : void
+}
+class Ping {
+- code : Code
++ getSlashInfo() : SlashCommandData
++ execute(SlashCommandInteractionEvent event) : void
++ getCode() : Code
++ getHelp() : String
+}
+class UserInfo {
+- code : Code
++ execute(SlashCommandInteractionEvent event) : void
++ getSlashInfo() : SlashCommandData
++ getHelp() : String
++ getCode() : Code
+- generateEmbed(SlashCommandInteractionEvent event) : MessageEmbed
+- setServerInfoEmbed(Member member, EmbedBuilder builder) : void
+- setBadgesEmbed(EmbedBuilder builder, User user) : void
+- getBanner(User user) : String
+}
+class Avatar {
++ getSlashInfo() : SlashCommandData
++ addOptions(SlashCommandData slashCommandData) : void
++ execute(SlashCommandInteractionEvent event) : void
+}
+class Ping {
++ getSlashInfo() : SlashCommandData
++ execute(SlashCommandInteractionEvent event) : void
+}
+interface ILogger {
++ logEvent(T event) : void
+}
+class LogConsole {
++ logEvent(String codeMsg) : void
+}
+class UptimeLogger {
+- startTime : long
++ logEvent(ReadyEvent event) : void
++ upTime() : String
+}
 Bot --> ModuleManager
 Bot o-- ModuleManager
 ModuleManager ..> EventListener
@@ -132,4 +232,28 @@ Mute ..|> ICommand
 ModCommands --|> CommandManager
 Avatar ..|> ICommand
 UserCommands --|> CommandManager
+SlashCommandListener --> CommandManager
+SlashCommandListener o-- CommandManager
+Shutdown ..|> ISlashCommand
+Shutdown --> Code
+Shutdown o-- Code
+Uptime ..|> ISlashCommand
+Uptime --> Code
+Uptime o-- Code
+Avatar ..|> ISlashCommand
+Avatar --> Code
+Avatar o-- Code
+Banner ..|> ISlashCommand
+Banner --> Code
+Banner o-- Code
+Ping ..|> ISlashCommand
+Ping --> Code
+Ping o-- Code
+UserInfo ..|> ISlashCommand
+UserInfo --> Code
+UserInfo o-- Code
+Avatar ..|> SlashCommand
+Ping ..|> SlashCommand
+LogConsole ..|> ILogger
+UptimeLogger ..|> ILogger
 @enduml
