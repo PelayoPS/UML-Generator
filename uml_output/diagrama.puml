@@ -1,6 +1,7 @@
 @startuml diagrama
 !theme mono
 skinparam linetype ortho
+skinparam monochrome true
 class Bot {
 - logger : Logger
 + jda : JDA
