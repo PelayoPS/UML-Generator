@@ -39,7 +39,7 @@ Para ver todas las dependencias, consulta el archivo `build.gradle` en la raíz 
 
 1. Clona el repositorio:
     ```bash
-    git clone https://github.com/tu-usuario/UML-Generator.git
+    git clone https://github.com/PelayoPS/UML-Generator.git
     cd UML-Generator
     ```
 
