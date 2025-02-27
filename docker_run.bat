@@ -40,6 +40,7 @@ if %errorlevel% equ 0 (
     set /p REBUILD="¿Deseas reconstruir la aplicación? (S/N): "
     if /i "!REBUILD!" neq "S" (
         echo [ℹ] Usando versión existente...
+        docker-compose up -d >nul 2>nul
         docker-compose start >nul 2>nul
         goto :start_browser
     )
