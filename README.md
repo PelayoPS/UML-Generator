@@ -12,6 +12,14 @@ UML-Generator es un proyecto que permite generar diagramas UML a partir del cód
 
 ### Instalación de Requisitos
 
+#### Instalación usando Docker
+
+1. **Docker**:
+    - Descarga e instala Docker desde [aquí](https://www.docker.com/products/docker-desktop).
+    - Asegúrate de que Docker esté en ejecución.
+
+#### Instalación Manual
+
 1. **Java 17 o superior**:
     - Descarga e instala Java desde [aquí](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html).
     - Asegúrate de que `JAVA_HOME` esté configurado en tu PATH.
@@ -32,6 +40,7 @@ Las principales dependencias del proyecto se gestionan a través de Gradle y se 
 - **Thymeleaf**: Motor de plantillas para la generación de vistas HTML.
 - **JavaParser**: Biblioteca para el análisis de código fuente Java.
 - **PlantUML**: Herramienta para la generación de diagramas UML a partir de texto.
+- **Docker**: Plataforma para la creación, implementación y ejecución de aplicaciones en contenedores.
 
 Para ver todas las dependencias, consulta el archivo `build.gradle` en la raíz del proyecto.
 
@@ -42,6 +51,17 @@ Para ver todas las dependencias, consulta el archivo `build.gradle` en la raíz 
     git clone https://github.com/PelayoPS/UML-Generator.git
     cd UML-Generator
     ```
+
+### Guía usando Docker
+
+2. Usa el script para ejecutar la aplicación con Docker:
+
+    - En Windows:
+        ```bat
+        docker_run.bat
+        ```
+
+### Guía manual
 
 2. Construye el proyecto con Gradle:
     ```bash
