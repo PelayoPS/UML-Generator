@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  uml-generator:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./uml_output:/app/uml_output

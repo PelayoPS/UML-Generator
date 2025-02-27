@@ -1,4 +1,4 @@
-package com.example.demo;
+package bot;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -30,6 +30,19 @@ public class UMLGenerator {
             "String", "Integer", "Boolean", "Long", "Double", "Float", "Character", "Byte", "Short"));
 
     private static String path;
+
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            System.err.println("Uso: java -jar UMLGenerator.jar <directorio>");
+            System.exit(1);
+        }
+        try {
+            run(args[0]);
+        } catch (Exception e) {
+            System.err.println("Error al generar el diagrama UML: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Método principal que inicia el proceso de generación del diagrama UML.
@@ -298,31 +311,20 @@ public class UMLGenerator {
      */
     private static void generateImageFromPlantUML() throws Exception {
         try {
-            String plantUmlJar = System.getenv("PLANTUML_JAR");
-            if (plantUmlJar == null) {
-                plantUmlJar = "/opt/plantuml/plantuml.jar"; // Ruta por defecto en el contenedor
+            // Especificar la ruta completa del ejecutable de plantuml si es necesario
+            String plantUmlCommand = "plantuml";
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                plantUmlCommand = "plantuml.bat"; // Cambiar a la ruta correcta en Windows
             }
 
-            ProcessBuilder processBuilder = new ProcessBuilder(
-                    "java",
-                    "-jar",
-                    plantUmlJar,
-                    "-tsvg",
-                    "uml_output/diagrama.puml");
-
+            ProcessBuilder processBuilder = new ProcessBuilder(plantUmlCommand, "-tsvg", "uml_output/diagrama.puml");
             processBuilder.inheritIO();
             Process process = processBuilder.start();
-
-            int exitCode = process.waitFor();
-            if (exitCode == 0) {
-                System.out.println("Imagen SVG generada en uml_output/diagrama.svg");
-            } else {
-                System.err.println("Error al generar la imagen SVG. Código de salida: " + exitCode);
-            }
+            process.waitFor();
+            System.out.println("Imagen SVG generada en uml_output/diagrama.svg");
         } catch (IOException e) {
-            System.err.println("Error al ejecutar PlantUML: " + e.getMessage());
+            System.err.println("Error al ejecutar el comando plantuml: " + e.getMessage());
             e.printStackTrace();
-            throw e;
         }
     }
 

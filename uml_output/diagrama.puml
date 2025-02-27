@@ -1,0 +1,141 @@
+@startuml diagrama
+!theme mono
+skinparam linetype ortho
+skinparam monochrome true
+class Bot {
+- logger : Logger
++ jda : JDA
++ moduleManager : ModuleManager
++ start(String token) : void
+}
+interface ICommand {
++ name : String
++ execute(SlashCommandInteractionEvent event) : void
++ getSlash() : SlashCommandData
++ getName() : String
+}
+class ModuleManager {
+- modules : Map<String,EventListener>
++ registerModule(String name, EventListener module) : void
++ enableModule(String name) : void
++ disableModule(String name) : void
++ isModuleEnabled(String name) : boolean
++ getModules() : Map<String,EventListener>
+}
+class CommandManager {
++ commands : List<ICommand>
++ getSlash() : List<SlashCommandData>
++ onSlashCommandInteraction(SlashCommandInteractionEvent event) : void
+}
+class ManageCommands {
+}
+class CreateRole {
+- name : String
++ execute(SlashCommandInteractionEvent event) : void
++ getSlash() : SlashCommandData
++ getName() : String
+}
+class DeleteRole {
+- name : String
++ execute(SlashCommandInteractionEvent event) : void
++ getSlash() : SlashCommandData
++ getName() : String
+}
+class Ban {
+- name : String
++ execute(SlashCommandInteractionEvent event) : void
++ getSlash() : SlashCommandData
+- parseTime(String time) : int
++ getName() : String
+}
+class Kick {
+- name : String
++ execute(SlashCommandInteractionEvent event) : void
++ getSlash() : SlashCommandData
++ getName() : String
+}
+class Mute {
+- name : String
++ execute(SlashCommandInteractionEvent event) : void
++ getSlash() : SlashCommandData
+- parseTime(String time) : Duration
++ getName() : String
+}
+class ModCommands {
+}
+class Avatar {
+- name : String
++ execute(SlashCommandInteractionEvent event) : void
+- buildAvatarEmbed(String avatar, String user) : MessageEmbed
+- buildBannerEmbed(String banner, String user) : MessageEmbed
++ getSlash() : SlashCommandData
++ getName() : String
+}
+class UserCommands {
+}
+class DatabaseManager {
+- url : String
+- user : String
+- password : String
+- connection : Connection
+- connect() : void
++ addPenalty(String userId, String penaltyType) : void
++ getPenalties(String userId) : ResultSet
++ close() : void
+}
+class EventListener {
++ isCommandEnabled : boolean
++ onMessageReceived(MessageReceivedEvent event) : void
++ onMessageReactionAdd(MessageReactionAddEvent event) : void
++ setCommandEnabled(boolean enabled) : void
++ isCommandEnabled() : boolean
+}
+class GuiManager {
++ initializeGui() : void
++ updateGui() : void
+}
+class Main {
++ main(String[] args) : void
+}
+class UMLGenerator {
+- classes : List<String>
+- relationships : List<String>
+- javaNativeClasses : Set<String>
+- path : String
++ main(String[] args) : void
++ run(String path) : void
+- processDirectory(File folder) : void
+- processFile(File file) : void
+- processClasses(CompilationUnit cu) : void
+- processAtributes(List<FieldDeclaration> fields) : void
+- processMethods(ClassOrInterfaceDeclaration clazz) : void
+- processRelationships(CompilationUnit cu) : void
+- extractGenericType(String type) : String
+- isJavaNativeClass(String className) : boolean
+- isClassInDirectory(String className) : boolean
+- isClassInDirectory(File folder, String className) : boolean
+- generatePlantUML() : void
+- generateImageFromPlantUML() : void
+- createSkin(FileWriter writer) : void
+}
+class Utils {
++ isValidUserId(String userId) : boolean
++ formatPenaltyMessage(String userName, String action) : String
++ formatDuration(long duration) : String
+}
+Bot --> ModuleManager
+Bot o-- ModuleManager
+ModuleManager ..> EventListener
+CommandManager --|> EventListener
+CommandManager --> ICommand
+CommandManager o-- ICommand
+ManageCommands --|> CommandManager
+CreateRole ..|> ICommand
+DeleteRole ..|> ICommand
+Ban ..|> ICommand
+Kick ..|> ICommand
+Mute ..|> ICommand
+ModCommands --|> CommandManager
+Avatar ..|> ICommand
+UserCommands --|> CommandManager
+@enduml
