@@ -16,6 +16,8 @@ dependencies {
     // Agregar dependencia para Spring Boot Web
     implementation 'org.springframework.boot:spring-boot-starter-web:3.4.2'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.4.2'
+    // Dependencia para configuration properties
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:3.4.2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.4.2'
     implementation group: 'com.github.javaparser', name: 'javaparser-core', version: '3.26.3'
     

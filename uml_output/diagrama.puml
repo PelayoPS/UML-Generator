@@ -1,0 +1,75 @@
+@startuml diagrama
+!theme mono
+skinparam linetype ortho
+skinparam monochrome true
+class Application <<Controller>> {
++ main(String[] args) : void
++ index(Model model) : String
++ addResourceHandlers(ResourceHandlerRegistry registry) : void
++ handleFileUpload(MultipartFile file, Model model) : String
+}
+class UMLGenerator {
+- classes : List<String>
+- relationships : List<String>
+- javaNativeClasses : Set<String>
+- path : String
++ run(String path) : void
+- processDirectory(File folder) : void
+- processFile(File file) : void
+- processClasses(CompilationUnit cu) : void
+- processAtributes(List<FieldDeclaration> fields) : void
+- processMethods(ClassOrInterfaceDeclaration clazz) : void
+- processRelationships(CompilationUnit cu) : void
+- extractGenericType(String type) : String
+- isJavaNativeClass(String className) : boolean
+- isClassInDirectory(String className) : boolean
+- isClassInDirectory(File folder, String className) : boolean
+- generatePlantUML() : void
+- generateImageFromPlantUML() : void
+- createSkin(FileWriter writer) : void
+}
+class UMLGeneratorProperties <<Component>> {
+- uploadDirectory : String
+- outputDirectory : String
+- unzippedDirectory : String
+- plantUmlJarPath : String
+- diagramFileName : String
+- plantUmlExtension : String
+- svgExtension : String
++ getUploadDirectory() : String
++ setUploadDirectory(String uploadDirectory) : void
++ getOutputDirectory() : String
++ setOutputDirectory(String outputDirectory) : void
++ getUnzippedDirectory() : String
++ setUnzippedDirectory(String unzippedDirectory) : void
++ getPlantUmlJarPath() : String
++ setPlantUmlJarPath(String plantUmlJarPath) : void
++ getDiagramFileName() : String
++ setDiagramFileName(String diagramFileName) : void
++ getPlantUmlExtension() : String
++ setPlantUmlExtension(String plantUmlExtension) : void
++ getSvgExtension() : String
++ setSvgExtension(String svgExtension) : void
++ getFullUploadPath() : String
++ getFullOutputPath() : String
++ getFullUnzippedPath() : String
++ getPlantUmlFileName() : String
++ getSvgFileName() : String
++ getDiagramUrl() : String
+}
+class UMLGeneratorUtil {
+- logger : Logger
++ processUploadedFile(File file) : void
+- unzip(File zipFile, File destDir) : String
+}
+class WebConfig <<Configuration>> {
+- properties : UMLGeneratorProperties
++ addResourceHandlers(ResourceHandlerRegistry registry) : void
+}
+Application ..> UMLGeneratorUtil : <<calls>>
+UMLGeneratorUtil ..> UMLGenerator : <<calls>>
+WebConfig ..> UMLGeneratorProperties : <<inject>>
+WebConfig --> UMLGeneratorProperties
+WebConfig ..> UMLGeneratorProperties : <<calls>>
+WebConfig ..> UMLGeneratorProperties : <<import>>
+@enduml

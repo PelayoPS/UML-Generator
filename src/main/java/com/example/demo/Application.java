@@ -1,5 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.config.UMLGeneratorProperties;
+import com.example.demo.exception.UMLGenerationException;
+import com.example.demo.exception.PlantUMLExecutionException;
+import com.example.demo.exception.JavaParsingException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,10 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.io.File;
 import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Clase Application para manejar las solicitudes web.
@@ -20,7 +25,16 @@ import java.io.IOException;
  */
 @SpringBootApplication
 @Controller
-public class Application implements WebMvcConfigurer {
+public class Application {
+    private static final Logger logger = LoggerFactory.getLogger(Application.class);
+
+    private final UMLGeneratorProperties properties;
+    private final UMLGeneratorUtil umlGeneratorUtil;
+
+    public Application(UMLGeneratorProperties properties, UMLGeneratorUtil umlGeneratorUtil) {
+        this.properties = properties;
+        this.umlGeneratorUtil = umlGeneratorUtil;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -33,12 +47,6 @@ public class Application implements WebMvcConfigurer {
         return "index";
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uml_output/**")
-                .addResourceLocations("file:" + System.getProperty("user.dir") + "/uml_output/");
-    }
-
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
         model.addAttribute("title", "UML Generator");
@@ -48,8 +56,10 @@ public class Application implements WebMvcConfigurer {
         }
 
         try {
-            // Directorio uploads en el proyecto
-            File uploadDir = new File(System.getProperty("user.dir"), "uploads");
+            logger.info("Procesando archivo subido: {}", file.getOriginalFilename());
+
+            // Usar configuración centralizada para directorios
+            File uploadDir = new File(properties.getFullUploadPath());
             if (!uploadDir.exists()) {
                 uploadDir.mkdirs();
             }
@@ -59,14 +69,26 @@ public class Application implements WebMvcConfigurer {
             file.transferTo(destFile);
 
             // Procesar el archivo subido usando UMLGeneratorUtil
-            UMLGeneratorUtil.processUploadedFile(destFile);
+            umlGeneratorUtil.processUploadedFile(destFile);
 
-            // Agregar la url de la imagen generada al modelo
-            model.addAttribute("diagramUrl", "/uml_output/diagrama.svg");
+            // Usar configuración centralizada para URL del diagrama
+            model.addAttribute("diagramUrl", properties.getDiagramUrl());
+            logger.info("Archivo procesado exitosamente: {}", file.getOriginalFilename());
         } catch (IOException e) {
-            model.addAttribute("message", "Error al subir el archivo: " + e.getMessage());
+            logger.error("Error de E/O al procesar archivo: {}", file.getOriginalFilename(), e);
+            model.addAttribute("message", "Error al subir el archivo. Verifique permisos y espacio disponible.");
+        } catch (PlantUMLExecutionException e) {
+            logger.error("Error ejecutando PlantUML: {}", e.getCommand(), e);
+            model.addAttribute("message", "Error generando diagrama. Verifique configuración de PlantUML.");
+        } catch (JavaParsingException e) {
+            logger.error("Error parseando archivo Java: {}", e.getFileName(), e);
+            model.addAttribute("message", "El archivo contiene código Java inválido o corrupto.");
+        } catch (UMLGenerationException e) {
+            logger.error("Error generando diagrama UML: {}", e.getMessage(), e);
+            model.addAttribute("message", "Error durante la generación del diagrama UML.");
         } catch (Exception e) {
-            model.addAttribute("message", "Error al procesar el archivo: " + e.getMessage());
+            logger.error("Error inesperado procesando archivo: {}", file.getOriginalFilename(), e);
+            model.addAttribute("message", "Error inesperado al procesar el archivo.");
         }
 
         return "index";
