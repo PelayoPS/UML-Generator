@@ -1,7 +1,0 @@
-.git
-.gradle
-build
-uploads/*
-uml_output/*
-.gitignore
-README.md
