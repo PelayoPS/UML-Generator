@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import java.io.File;
 import java.io.IOException;
 
@@ -30,10 +32,13 @@ public class Application {
 
     private final UMLGeneratorProperties properties;
     private final UMLGeneratorUtil umlGeneratorUtil;
+    private final MessageSource messageSource;
 
-    public Application(UMLGeneratorProperties properties, UMLGeneratorUtil umlGeneratorUtil) {
+    public Application(UMLGeneratorProperties properties, UMLGeneratorUtil umlGeneratorUtil,
+            MessageSource messageSource) {
         this.properties = properties;
         this.umlGeneratorUtil = umlGeneratorUtil;
+        this.messageSource = messageSource;
     }
 
     public static void main(String[] args) {
@@ -41,17 +46,19 @@ public class Application {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("title", "UML Generator");
-        model.addAttribute("description", "Genera diagramas UML profesionales a partir de tu código fuente Java. Simplemente sube tu proyecto en formato .zip y obtén una visualización clara y detallada de tu arquitectura.");
+    public String index(Model model, @RequestParam(value = "lang", required = false) String lang) {
+        java.util.Locale current = LocaleContextHolder.getLocale();
+        model.addAttribute("title", messageSource.getMessage("app.title", null, current));
+        model.addAttribute("description", messageSource.getMessage("app.description", null, current));
         return "index";
     }
 
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
-        model.addAttribute("title", "UML Generator");
+    java.util.Locale current = LocaleContextHolder.getLocale();
+        model.addAttribute("title", messageSource.getMessage("app.title", null, current));
         if (file.isEmpty()) {
-            model.addAttribute("message", "Por favor, selecciona un archivo para subir.");
+            model.addAttribute("message", messageSource.getMessage("upload.selectFile", null, current));
             return "index";
         }
 
@@ -76,19 +83,19 @@ public class Application {
             logger.info("Archivo procesado exitosamente: {}", file.getOriginalFilename());
         } catch (IOException e) {
             logger.error("Error de E/O al procesar archivo: {}", file.getOriginalFilename(), e);
-            model.addAttribute("message", "Error al subir el archivo. Verifique permisos y espacio disponible.");
+            model.addAttribute("message", messageSource.getMessage("upload.ioError", null, current));
         } catch (PlantUMLExecutionException e) {
             logger.error("Error ejecutando PlantUML: {}", e.getCommand(), e);
-            model.addAttribute("message", "Error generando diagrama. Verifique configuración de PlantUML.");
+            model.addAttribute("message", messageSource.getMessage("upload.plantumlError", null, current));
         } catch (JavaParsingException e) {
             logger.error("Error parseando archivo Java: {}", e.getFileName(), e);
-            model.addAttribute("message", "El archivo contiene código Java inválido o corrupto.");
+            model.addAttribute("message", messageSource.getMessage("upload.javaParsingError", null, current));
         } catch (UMLGenerationException e) {
             logger.error("Error generando diagrama UML: {}", e.getMessage(), e);
-            model.addAttribute("message", "Error durante la generación del diagrama UML.");
+            model.addAttribute("message", messageSource.getMessage("upload.umlGenError", null, current));
         } catch (Exception e) {
             logger.error("Error inesperado procesando archivo: {}", file.getOriginalFilename(), e);
-            model.addAttribute("message", "Error inesperado al procesar el archivo.");
+            model.addAttribute("message", messageSource.getMessage("upload.unexpectedError", null, current));
         }
 
         return "index";
