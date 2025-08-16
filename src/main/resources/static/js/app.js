@@ -75,7 +75,77 @@ document.addEventListener('DOMContentLoaded', function() {
             updateSelectorAppearance('default');
         }
     }
+
+    // Idioma: sincronizar con localStorage y URL
+    try {
+        const url = new URL(window.location.href);
+        const urlLang = url.searchParams.get('lang');
+        const storedLang = localStorage.getItem('preferredLang');
+
+        if (urlLang) {
+            if (storedLang !== urlLang) {
+                localStorage.setItem('preferredLang', urlLang);
+            }
+            updateLangActive(urlLang);
+        } else if (storedLang) {
+            // Aplicar automáticamente el idioma preferido si la URL no lo tiene
+            url.searchParams.set('lang', storedLang);
+            window.location.replace(url.toString());
+            return;
+        } else {
+            updateLangActive('es'); // coincide con default del servidor
+        }
+    } catch (_) {
+        // Ignorar errores de URL
+    }
+
+    // Mostrar nombre de archivo seleccionado junto al botón personalizado
+    const fileInput = document.getElementById('fileInput');
+    const fileNameLabel = document.getElementById('fileNameLabel');
+    if (fileInput && fileNameLabel) {
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                fileNameLabel.textContent = this.files[0].name;
+            } else {
+                // Si no hay archivo, restaurar placeholder traducido si está disponible en atributo data
+                const placeholder = fileNameLabel.getAttribute('data-placeholder');
+                if (placeholder) fileNameLabel.textContent = placeholder;
+            }
+        });
+        // Guardar el texto inicial como placeholder
+        if (!fileNameLabel.getAttribute('data-placeholder')) {
+            fileNameLabel.setAttribute('data-placeholder', fileNameLabel.textContent);
+        }
+    }
 });
+
+// Cambiar idioma preservando otros parámetros de la URL
+function setLang(lang) {
+    try {
+        localStorage.setItem('preferredLang', lang);
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', lang);
+        window.location.href = url.toString();
+    } catch (e) {
+        // Fallback simple
+        localStorage.setItem('preferredLang', lang);
+        window.location.search = '?lang=' + encodeURIComponent(lang);
+    }
+}
+
+function updateLangActive(lang) {
+    const buttons = document.querySelectorAll('.lang-btn');
+    buttons.forEach(btn => {
+        const isActive = btn.getAttribute('onclick')?.includes("'" + lang + "'");
+        if (isActive) {
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+        } else {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
+        }
+    });
+}
 
 // Efectos adicionales para el tema neobrutalista
 document.addEventListener('DOMContentLoaded', function() {

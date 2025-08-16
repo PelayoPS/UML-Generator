@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="lang=${#locale}" lang="es">
 <head>
     <title th:text="${title}">UML generator</title>
     <meta charset="UTF-8">
@@ -17,6 +17,16 @@
         </select>
     </div>
 
+    <!-- Selector de Idioma -->
+    <div class="lang-switcher" role="group" aria-label="Language selector">
+        <button type="button" class="lang-btn" onclick="setLang('es')" th:title="#{lang.es}" th:attr="aria-label=#{lang.es}">
+            <img class="flag" src="/img/flags/es.png" th:src="@{/img/flags/es.png}" onerror="this.onerror=null;this.src='/img/flags/es.svg'" alt="" aria-hidden="true" />
+        </button>
+        <button type="button" class="lang-btn" onclick="setLang('en')" th:title="#{lang.en}" th:attr="aria-label=#{lang.en}">
+            <img class="flag" src="/img/flags/gb.png" th:src="@{/img/flags/gb.png}" onerror="this.onerror=null;this.src='/img/flags/gb.svg'" alt="" aria-hidden="true" />
+        </button>
+    </div>
+
     <div class="container">
         <header class="site-header">
             <h1 class="site-title" th:text="${title}">UML Generator</h1>
@@ -25,7 +35,9 @@
         
         <form class="upload-form" method="post" enctype="multipart/form-data" action="/upload">
             <div class="file-input-wrapper">
-                <input type="file" name="file" th:attr="accept=#{ui.file.accept}" th:placeholder="#{ui.file.placeholder}" accept=".zip" placeholder="Selecciona un archivo .zip" />
+                <input id="fileInput" type="file" name="file" th:attr="accept=#{ui.file.accept}" accept=".zip" />
+                <button type="button" class="file-browse" onclick="document.getElementById('fileInput').click()" th:text="#{ui.file.browse}">Seleccionar archivo</button>
+                <span id="fileNameLabel" class="file-name" th:text="#{ui.file.placeholder}">Selecciona un archivo .zip</span>
             </div>
             <button type="submit" th:text="#{ui.upload.button}">Generar Diagrama UML</button>
         </form>

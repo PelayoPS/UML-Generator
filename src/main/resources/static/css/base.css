@@ -113,33 +113,21 @@ body {
 }
 
 input[type="file"] {
-    width: 100%;
-    padding: 1rem;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    display: none; /* Ocultar input nativo; usaremos botón personalizado */
 }
 
-input[type="file"]:hover {
-    border-color: var(--secondary-color);
-}
-
-input[type="file"]::file-selector-button {
+/* Botón personalizado para seleccionar archivo + etiqueta de nombre */
+.file-browse {
     background-color: var(--primary-color);
     color: black;
-    padding: 0.5rem 1rem;
+    padding: 0.7rem 1.2rem;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    margin-right: 1rem;
-    transition: background-color 0.3s ease;
+    font-weight: 600;
 }
-
-input[type="file"]::file-selector-button:hover {
-    background-color: var(--hover-color);
-}
+.file-browse:hover { background-color: var(--hover-color); }
+.file-name { margin-left: 1rem; opacity: 0.8; }
 
 button {
     background-color: var(--primary-color);
@@ -224,6 +212,47 @@ button:hover {
     width: 1.2em;
     height: 1.2em;
     fill: black;
+}
+
+/* Language switcher */
+.lang-switcher {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: white;
+    border: 2px solid #000;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+}
+
+.lang-btn {
+    width: 40px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--background-color);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.lang-btn:hover {
+    border-color: var(--secondary-color);
+}
+
+.lang-btn .flag { width: 24px; height: 16px; display: block; }
+
+/* Estado activo del botón de idioma */
+.lang-btn.active {
+    border-color: var(--primary-color, #4f46e5);
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
 }
 
 .diagram-preview {
