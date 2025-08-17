@@ -35,6 +35,69 @@ function updateSelectorAppearance(theme) {
 document.addEventListener('DOMContentLoaded', function() {
     const savedSkin = localStorage.getItem('selectedSkin');
     const skinSelector = document.getElementById('skinSelector');
+    // Inicializar picker personalizado
+    try {
+        const picker = document.getElementById('skinPicker');
+        const pickerBtn = document.getElementById('skinPickerButton');
+        const list = document.getElementById('skinPickerList');
+        if (picker && pickerBtn && list && skinSelector) {
+            // Marca de mejora para ocultar el select nativo
+            picker.parentElement.classList.add('js-enhanced');
+
+            const setPickerUI = (value) => {
+                const labelSpan = pickerBtn.querySelector('.skin-picker__label');
+                const chip = pickerBtn.querySelector('.skin-chip');
+                const selectedLi = list.querySelector(`.skin-option[data-value="${value}"]`);
+                if (!selectedLi || !labelSpan || !chip) {
+                    return;
+                }
+                labelSpan.textContent = selectedLi.querySelector('.opt-label')?.textContent || '';
+                chip.className = 'skin-chip ' + (value === 'neobrutalist' ? 'chip-neo' : value === 'glass' ? 'chip-glass' : 'chip-elegant');
+                list.querySelectorAll('.skin-option').forEach(li => li.setAttribute('aria-selected', li.dataset.value === value ? 'true' : 'false'));
+            };
+
+            // Estado inicial
+            const initial = savedSkin || skinSelector.value || 'default';
+            setPickerUI(initial);
+
+            // Abrir/cerrar
+            pickerBtn.addEventListener('click', () => {
+                const isOpen = list.hasAttribute('hidden') === false;
+                if (isOpen) {
+                    list.setAttribute('hidden', '');
+                    pickerBtn.setAttribute('aria-expanded', 'false');
+                } else {
+                    list.removeAttribute('hidden');
+                    pickerBtn.setAttribute('aria-expanded', 'true');
+                }
+            });
+            document.addEventListener('click', (e) => {
+                if (!picker.contains(e.target)) {
+                    list.setAttribute('hidden', '');
+                    pickerBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Selección de opción
+            list.querySelectorAll('.skin-option').forEach(li => {
+                li.addEventListener('click', () => {
+                    const { value } = li.dataset;
+                    if (skinSelector.value !== value) {
+                        skinSelector.value = value;
+                        changeSkin();
+                    } else {
+                        updateSelectorAppearance(value);
+                    }
+                    setPickerUI(value);
+                    list.setAttribute('hidden', '');
+                    pickerBtn.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            // Sincronizar cuando cambie el select nativo por otros medios
+            skinSelector.addEventListener('change', () => setPickerUI(skinSelector.value));
+        }
+    } catch (_) { /* no-op */ }
     
     if (skinSelector) {
         if (savedSkin) {

@@ -12,11 +12,34 @@
 <body>
     <!-- Selector de Skins -->
     <div class="skin-selector">
+        <!-- Select nativo (fallback). Se ocultará al mejorar con JS -->
         <select id="skinSelector" onchange="changeSkin()">
-            <option value="default" th:text="#{skin.elegant}">✨ Elegante</option>
-            <option value="neobrutalist" th:text="#{skin.neobrutalist}">💥 Neobrutalista</option>
+            <option value="default" th:text="#{skin.elegant}">Elegant</option>
+            <option value="neobrutalist" th:text="#{skin.neobrutalist}">Neobrutalist</option>
             <option value="glass" th:text="#{skin.glass}">Glass</option>
         </select>
+
+        <!-- Selector personalizado con opciones estilizadas -->
+        <div class="skin-picker" id="skinPicker">
+            <button type="button" class="skin-picker__button" id="skinPickerButton" aria-haspopup="listbox" aria-expanded="false">
+                <span class="skin-chip chip-elegant" aria-hidden="true"></span>
+                <span class="skin-picker__label" th:text="#{skin.elegant}">Elegant</span>
+            </button>
+            <ul class="skin-picker__list" id="skinPickerList" role="listbox" hidden>
+                <li role="option" id="skin-opt-default" data-value="default" class="skin-option opt-elegant">
+                    <span class="skin-chip chip-elegant" aria-hidden="true"></span>
+                    <span class="opt-label" th:text="#{skin.elegant}">Elegant</span>
+                </li>
+                <li role="option" id="skin-opt-neobrutalist" data-value="neobrutalist" class="skin-option opt-neo">
+                    <span class="skin-chip chip-neo" aria-hidden="true"></span>
+                    <span class="opt-label" th:text="#{skin.neobrutalist}">Neobrutalist</span>
+                </li>
+                <li role="option" id="skin-opt-glass" data-value="glass" class="skin-option opt-glass">
+                    <span class="skin-chip chip-glass" aria-hidden="true"></span>
+                    <span class="opt-label" th:text="#{skin.glass}">Glass</span>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <!-- Selector de Idioma -->
