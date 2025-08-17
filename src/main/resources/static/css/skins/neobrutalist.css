@@ -72,9 +72,10 @@ body.neobrutalist-theme .upload-form {
 }
 
 body.neobrutalist-theme .upload-form:hover {
-    background: var(--success-color);
+    /* Mantener el color del panel; solo realzar para no coincidir con los botones */
     transform: rotate(-0.3deg) translate(-2px, -2px);
     box-shadow: 6px 6px 0px var(--shadow-color);
+    filter: brightness(1.05) saturate(1.05);
 }
 
 /* Inputs */

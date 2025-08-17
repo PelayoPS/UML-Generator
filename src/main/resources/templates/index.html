@@ -7,6 +7,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23333'/%3E%3Ctext x='50' y='50' font-family='Arial' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'%3EUML%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" th:href="@{/css/base.css}" href="/css/base.css" />
     <link rel="stylesheet" th:href="@{/css/skins/neobrutalist.css}" href="/css/skins/neobrutalist.css" />
+    <link rel="stylesheet" th:href="@{/css/skins/glass.css}" href="/css/skins/glass.css" />
 </head>
 <body>
     <!-- Selector de Skins -->
@@ -14,16 +15,17 @@
         <select id="skinSelector" onchange="changeSkin()">
             <option value="default" th:text="#{skin.elegant}">✨ Elegante</option>
             <option value="neobrutalist" th:text="#{skin.neobrutalist}">💥 Neobrutalista</option>
+            <option value="glass" th:text="#{skin.glass}">Glass</option>
         </select>
     </div>
 
     <!-- Selector de Idioma -->
     <div class="lang-switcher" role="group" aria-label="Language selector">
         <button type="button" class="lang-btn" onclick="setLang('es')" th:title="#{lang.es}" th:attr="aria-label=#{lang.es}">
-            <img class="flag" src="/img/flags/es.png" th:src="@{/img/flags/es.png}" onerror="this.onerror=null;this.src='/img/flags/es.svg'" alt="" aria-hidden="true" />
+            <img class="flag" src="/img/flags/es.png" th:src="@{/img/flags/es.png}" alt="" aria-hidden="true" />
         </button>
         <button type="button" class="lang-btn" onclick="setLang('en')" th:title="#{lang.en}" th:attr="aria-label=#{lang.en}">
-            <img class="flag" src="/img/flags/gb.png" th:src="@{/img/flags/gb.png}" onerror="this.onerror=null;this.src='/img/flags/gb.svg'" alt="" aria-hidden="true" />
+            <img class="flag" src="/img/flags/gb.png" th:src="@{/img/flags/gb.png}" alt="" aria-hidden="true" />
         </button>
     </div>
 

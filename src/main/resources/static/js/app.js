@@ -5,11 +5,13 @@ function changeSkin() {
     const selectedSkin = skinSelector.value;
     
     // Remover todas las clases de temas
-    body.classList.remove('neobrutalist-theme');
+    body.classList.remove('neobrutalist-theme', 'glass-theme');
     
     // Aplicar el tema seleccionado
     if (selectedSkin === 'neobrutalist') {
         body.classList.add('neobrutalist-theme');
+    } else if (selectedSkin === 'glass') {
+        body.classList.add('glass-theme');
     }
     
     // Actualizar la apariencia del selector inmediatamente
@@ -21,44 +23,12 @@ function changeSkin() {
 
 // Función para actualizar la apariencia del selector
 function updateSelectorAppearance(theme) {
+    // Dejar que el CSS de cada skin gobierne: limpiar estilos inline
     const selector = document.getElementById('skinSelector');
     const selectorContainer = document.querySelector('.skin-selector');
-    
-    if (!selector || !selectorContainer) return;
-
-    if (theme === 'neobrutalist') {
-        // Aplicar estilos neobrutalistas inmediatamente
-        selectorContainer.style.background = '#FFD93D';
-        selectorContainer.style.border = '3px solid #000000';
-        selectorContainer.style.borderRadius = '0';
-        selectorContainer.style.boxShadow = '4px 4px 0px #000000';
-        selectorContainer.style.transform = 'rotate(-1deg)';
-        
-        selector.style.background = '#FFFFFF';
-        selector.style.border = '2px solid #000000';
-        selector.style.borderRadius = '0';
-        selector.style.fontWeight = 'bold';
-        selector.style.color = '#000000';
-        selector.style.textTransform = 'uppercase';
-        selector.style.fontSize = '12px';
-        selector.style.letterSpacing = '1px';
-    } else {
-        // Restaurar estilos elegantes
-        selectorContainer.style.background = 'white';
-        selectorContainer.style.border = '2px solid #000';
-        selectorContainer.style.borderRadius = '8px';
-        selectorContainer.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-        selectorContainer.style.transform = 'none';
-        
-        selector.style.background = '';
-        selector.style.border = '1px solid #ddd';
-        selector.style.borderRadius = '4px';
-        selector.style.fontWeight = 'normal';
-        selector.style.color = '';
-        selector.style.textTransform = 'none';
-        selector.style.fontSize = '14px';
-        selector.style.letterSpacing = 'normal';
-    }
+    if (!selector || !selectorContainer) { return; }
+    selector.removeAttribute('style');
+    selectorContainer.removeAttribute('style');
 }
 
 // Cargar el tema guardado al cargar la página
@@ -109,7 +79,9 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 // Si no hay archivo, restaurar placeholder traducido si está disponible en atributo data
                 const placeholder = fileNameLabel.getAttribute('data-placeholder');
-                if (placeholder) fileNameLabel.textContent = placeholder;
+                if (placeholder) {
+                    fileNameLabel.textContent = placeholder;
+                }
             }
         });
         // Guardar el texto inicial como placeholder
@@ -180,8 +152,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         selectorContainer.addEventListener('mouseleave', function() {
             if (document.body.classList.contains('neobrutalist-theme')) {
-                this.style.transform = 'rotate(-1deg)';
-                this.style.boxShadow = '4px 4px 0px #000000';
+                // Limpiar inline para volver al estilo del CSS del tema
+                this.style.transform = '';
+                this.style.boxShadow = '';
             }
         });
     }

@@ -21,6 +21,45 @@
     transition: all 0.3s ease;
 }
 
+/* Apariencia por skin del contenedor del selector */
+body.neobrutalist-theme .skin-selector {
+    background: #FFD93D;
+    border: 3px solid #000;
+    border-radius: 0;
+    box-shadow: 4px 4px 0 #000;
+    transform: rotate(-1deg);
+}
+body.glass-theme .skin-selector {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(2,6,23,0.5);
+    backdrop-filter: blur(10px) saturate(140%);
+}
+
+/* Apariencia del <select> por skin */
+body.neobrutalist-theme .skin-selector select {
+    background: #FFFFFF;
+    border: 2px solid #000;
+    border-radius: 0;
+    font-weight: 800;
+    color: #000;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+body.glass-theme .skin-selector select {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: #fff;
+}
+/* Panel de opciones del select en Glass (soporte varía por navegador) */
+body.glass-theme .skin-selector select option,
+body.glass-theme .skin-selector select optgroup {
+    background: rgba(15,23,42,0.92);
+    color: #fff;
+}
+
 /* Tema por defecto (base/elegante) */
 :root {
     --primary-color: #333333;
@@ -238,7 +277,8 @@ button:hover {
     padding: 0;
     border-radius: 6px;
     border: 1px solid var(--border-color);
-    background: var(--background-color);
+    /* En Elegant forzamos fondo claro incluso en dark-mode */
+    background: #ffffff;
     color: var(--text-color);
     cursor: pointer;
 }
@@ -251,9 +291,44 @@ button:hover {
 
 /* Estado activo del botón de idioma */
 .lang-btn.active {
-    border-color: var(--primary-color, #4f46e5);
+    /* Fijamos color de realce consistente en Elegant */
+    border-color: #4f46e5;
     box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
 }
+
+/* Apariencia del switcher por skin */
+body.neobrutalist-theme .lang-switcher {
+    background: #FFD93D;
+    border: 3px solid #000;
+    border-radius: 0;
+    box-shadow: 4px 4px 0 #000;
+}
+body.neobrutalist-theme .lang-btn {
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 0;
+    box-shadow: 2px 2px 0 #000;
+}
+body.neobrutalist-theme .lang-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 #000;
+}
+body.neobrutalist-theme .lang-btn.active {
+    background: #FFD93D;
+    border-color: #000;
+    box-shadow: 4px 4px 0 #000;
+}
+
+body.glass-theme .lang-switcher {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(2,6,23,0.5);
+    backdrop-filter: blur(10px) saturate(140%);
+}
+body.glass-theme .lang-btn { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.16); color: #fff; }
+body.glass-theme .lang-btn.active { box-shadow: 0 0 0 3px rgba(255,255,255,0.25); }
+body.glass-theme .lang-btn .flag { filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25)); }
 
 .diagram-preview {
     margin-top: 1rem;
