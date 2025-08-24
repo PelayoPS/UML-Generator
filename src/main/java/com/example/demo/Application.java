@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +47,61 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
+    // Limpiar directorios de trabajo al iniciar para evitar residuos de ejecuciones
+    // anteriores
+    @org.springframework.context.event.EventListener(org.springframework.boot.context.event.ApplicationReadyEvent.class)
+    public void onAppReady() {
+        cleanupDirectories();
+    }
+
+    private void cleanupDirectories() {
+        String uploads = properties.getFullUploadPath();
+        String output = properties.getFullOutputPath();
+        deleteDirectoryContents(Paths.get(uploads));
+        deleteDirectoryContents(Paths.get(output));
+        // Asegurar que existen tras la limpieza
+        ensureDir(Paths.get(uploads));
+        ensureDir(Paths.get(output));
+        logger.info("Directorios de trabajo listos. uploads='{}', output='{}'", uploads, output);
+    }
+
+    private void deleteDirectoryContents(Path dir) {
+        try {
+            if (dir == null)
+                return;
+            if (!Files.exists(dir))
+                return;
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
+                for (Path path : stream) {
+                    deleteRecursively(path);
+                }
+            }
+        } catch (IOException e) {
+            logger.warn("No se pudo limpiar el directorio {} al iniciar: {}", dir, e.getMessage());
+        }
+    }
+
+    private void deleteRecursively(Path path) throws IOException {
+        if (Files.isDirectory(path)) {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
+                for (Path entry : stream) {
+                    deleteRecursively(entry);
+                }
+            }
+        }
+        Files.deleteIfExists(path);
+    }
+
+    private void ensureDir(Path dir) {
+        try {
+            if (dir != null && !Files.exists(dir)) {
+                Files.createDirectories(dir);
+            }
+        } catch (IOException e) {
+            logger.warn("No se pudo crear el directorio {} al iniciar: {}", dir, e.getMessage());
+        }
+    }
+
     @GetMapping("/")
     public String index(Model model, @RequestParam(value = "lang", required = false) String lang) {
         java.util.Locale current = LocaleContextHolder.getLocale();
@@ -53,13 +110,22 @@ public class Application {
         return "index";
     }
 
+    // Evitar 405 en GET /upload; redirigir a la página principal
+    @GetMapping("/upload")
+    public String uploadGetRedirect() {
+        return "redirect:/";
+    }
+
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model,
+            RedirectAttributes redirectAttributes) {
     java.util.Locale current = LocaleContextHolder.getLocale();
+    // Para PRG, solo usamos flash attributes y redireccionamos
         model.addAttribute("title", messageSource.getMessage("app.title", null, current));
         if (file.isEmpty()) {
-            model.addAttribute("message", messageSource.getMessage("upload.selectFile", null, current));
-            return "index";
+            redirectAttributes.addFlashAttribute("message",
+                    messageSource.getMessage("upload.selectFile", null, current));
+            return "redirect:/";
         }
 
         try {
@@ -79,25 +145,31 @@ public class Application {
             umlGeneratorUtil.processUploadedFile(destFile);
 
             // Usar configuración centralizada para URL del diagrama
-            model.addAttribute("diagramUrl", properties.getDiagramUrl());
+            redirectAttributes.addFlashAttribute("diagramUrl", properties.getDiagramUrl());
             logger.info("Archivo procesado exitosamente: {}", file.getOriginalFilename());
         } catch (IOException e) {
             logger.error("Error de E/O al procesar archivo: {}", file.getOriginalFilename(), e);
-            model.addAttribute("message", messageSource.getMessage("upload.ioError", null, current));
+            redirectAttributes.addFlashAttribute("message", messageSource.getMessage("upload.ioError", null, current));
         } catch (PlantUMLExecutionException e) {
             logger.error("Error ejecutando PlantUML: {}", e.getCommand(), e);
-            model.addAttribute("message", messageSource.getMessage("upload.plantumlError", null, current));
+            redirectAttributes.addFlashAttribute("message",
+                    messageSource.getMessage("upload.plantumlError", null, current));
         } catch (JavaParsingException e) {
             logger.error("Error parseando archivo Java: {}", e.getFileName(), e);
-            model.addAttribute("message", messageSource.getMessage("upload.javaParsingError", null, current));
+            redirectAttributes.addFlashAttribute("message",
+                    messageSource.getMessage("upload.javaParsingError", null, current));
         } catch (UMLGenerationException e) {
             logger.error("Error generando diagrama UML: {}", e.getMessage(), e);
-            model.addAttribute("message", messageSource.getMessage("upload.umlGenError", null, current));
+            redirectAttributes.addFlashAttribute("message",
+                    messageSource.getMessage("upload.umlGenError", null, current));
         } catch (Exception e) {
             logger.error("Error inesperado procesando archivo: {}", file.getOriginalFilename(), e);
-            model.addAttribute("message", messageSource.getMessage("upload.unexpectedError", null, current));
+            redirectAttributes.addFlashAttribute("message",
+                    messageSource.getMessage("upload.unexpectedError", null, current));
         }
 
-        return "index";
+        // PRG: Redirigir a la home para evitar quedarse en /upload (que solo acepta
+        // POST)
+        return "redirect:/";
     }
 }
