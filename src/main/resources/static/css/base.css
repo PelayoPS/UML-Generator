@@ -40,6 +40,7 @@
 .chip-elegant { background: linear-gradient(145deg, #4f46e5, #64748b); }
 .chip-neo { background: linear-gradient(145deg, #FFD93D, #FF6B6B); box-shadow: inset 0 0 0 2px #000; }
 .chip-glass { background: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(255,255,255,0.3)); backdrop-filter: blur(2px); box-shadow: inset 0 0 0 2px rgba(0,0,0,0.35); }
+.chip-win95 { background: linear-gradient(145deg, #c0c0c0, #e0e0e0); box-shadow: inset 0 0 0 2px #808080; }
 
 /* Estilos por entrada para representar cada skin */
 .skin-option.opt-elegant { background: linear-gradient(135deg, rgba(31,41,55,0.92), rgba(17,24,39,0.92)); color: #e5e7eb; border-color: rgba(0,0,0,0.35); box-shadow: 0 6px 14px rgba(0,0,0,.25); }
@@ -62,6 +63,21 @@
 .skin-option.opt-glass .opt-label { color: #0f172a; }
 .skin-option.opt-glass:hover { background: linear-gradient(145deg, rgba(255,255,255,0.75), rgba(255,255,255,0.45)); box-shadow: 0 0 0 1px rgba(0,0,0,0.22) inset, 0 8px 16px rgba(0,0,0,0.22); }
 
+/* Windows 95 preview tile */
+.skin-option.opt-win95 {
+    background: #c0c0c0;
+    color: #000;
+    border: 1px solid #000;
+    border-right-color: #404040;
+    border-bottom-color: #404040;
+    border-left-color: #ffffff;
+    border-top-color: #ffffff;
+    border-radius: 2px;
+    box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040;
+}
+.skin-option.opt-win95 .opt-label { color: #000; font-family: Tahoma, Verdana, sans-serif; }
+.skin-option.opt-win95:hover { filter: brightness(1.03); }
+
 /* Override solo cuando la skin activa es Glass: estilo translúcido claro */
 body.glass-theme .skin-option.opt-glass { background: linear-gradient(145deg, rgba(255,255,255,0.22), rgba(255,255,255,0.12)); border: 1px solid rgba(255,255,255,0.6); box-shadow: 0 8px 20px rgba(2,6,23,0.25); }
 body.glass-theme .skin-option.opt-glass:hover { background: linear-gradient(145deg, rgba(255,255,255,0.28), rgba(255,255,255,0.18)); box-shadow: 0 10px 24px rgba(2,6,23,0.3); }
@@ -73,6 +89,15 @@ body.neobrutalist-theme .skin-picker__list { background:#FFD93D; border:3px soli
 body.glass-theme .skin-picker__button,
 body.glass-theme .skin-picker__list { background: rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.35); border-radius:12px; backdrop-filter: blur(10px) saturate(140%); }
 body.glass-theme .skin-option:hover { background: rgba(255,255,255,0.10); }
+
+/* Win95 picker appearance */
+body.win95-theme .skin-picker__button,
+body.win95-theme .skin-picker__list {
+    background: #c0c0c0;
+    border: 2px solid #000;
+    border-radius: 2px;
+    box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040;
+}
 
 /* Ocultar el select nativo cuando JS inicializa el picker */
 .skin-selector.js-enhanced select { display:none; }
@@ -91,6 +116,13 @@ body.glass-theme .skin-selector {
     border-radius: 12px;
     box-shadow: 0 8px 30px rgba(2,6,23,0.5);
     backdrop-filter: blur(10px) saturate(140%);
+}
+
+body.win95-theme .skin-selector {
+    background: #c0c0c0;
+    border: 2px solid #000;
+    border-radius: 2px;
+    box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040;
 }
 
 /* Apariencia del <select> por skin */
@@ -114,6 +146,12 @@ body.glass-theme .skin-selector select option,
 body.glass-theme .skin-selector select optgroup {
     background: rgba(15,23,42,0.92);
     color: #fff;
+}
+
+body.win95-theme .skin-selector select {
+    background: #c0c0c0;
+    border: 2px solid #000;
+    border-radius: 2px;
 }
 
 /* Tema por defecto (base/elegante) */
@@ -308,6 +346,12 @@ button:hover {
     height: 1.2em;
     fill: black;
 }
+body.win95-theme .action-button svg { fill: #000; }
+
+/* Hidden by default: shown only in win95 skin */
+.win95-caption { display: none; }
+.win95-window-titlebar, .win95-menubar, .win95-statusbar { display: none; }
+.win95-window-titlebar, .win95-menubar, .win95-statusbar { display: none; }
 
 /* Language switcher */
 .lang-switcher {

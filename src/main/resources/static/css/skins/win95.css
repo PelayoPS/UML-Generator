@@ -1,0 +1,170 @@
+/* Windows 95 skin */
+body.win95-theme {
+  --primary-color: #000000;
+  --secondary-color: #000000;
+  --background-color: #008080; /* Teal classic */
+  --text-color: #000000;
+  --border-color: #000000;
+  --hover-color: #404040;
+  --shadow-color: rgba(0,0,0,0.5);
+}
+
+/* Base background reminiscent of Win95 */
+body.win95-theme {
+  background: #008080;
+  color: var(--text-color);
+  font-family: Tahoma, Verdana, sans-serif;
+}
+
+/* Classic window panel */
+body.win95-theme .container {
+  background: #c0c0c0;
+  border: 2px solid #000;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040, 4px 4px 0 rgba(0,0,0,0.25);
+  padding: 0; /* dejamos que el chrome marque la estructura */
+}
+
+/* Title bar */
+/* Ocultar caption antigua dentro del header; usamos titlebar superior */
+body.win95-theme .win95-caption { display: none; }
+body.win95-theme .site-title {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-shadow: none;
+}
+body.win95-theme .site-description { color: #e6f0ff; }
+
+/* Form area */
+body.win95-theme .upload-form {
+  background: #c0c0c0;
+  border: 2px solid #000;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040;
+}
+body.win95-theme .upload-form:hover {
+  transform: none; /* Win95 no anim */
+  filter: none;
+}
+
+/* Buttons */
+body.win95-theme button,
+body.win95-theme .file-browse,
+body.win95-theme .action-button {
+  background: #c0c0c0 !important;
+  color: #000 !important;
+  border: 2px solid #000 !important;
+  border-radius: 2px !important;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-family: Tahoma, Verdana, sans-serif !important;
+  padding: 6px 12px !important;
+}
+body.win95-theme button:hover,
+body.win95-theme .file-browse:hover,
+body.win95-theme .action-button:hover {
+  background: #b5b5b5 !important;
+  transform: none !important;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040, 1px 1px 0 #000 !important;
+}
+body.win95-theme .action-button svg { fill: #000; }
+
+/* File name label */
+body.win95-theme .file-name { color: #000; opacity: 1; }
+
+/* Messages */
+body.win95-theme .message {
+  background: #c0c0c0;
+  color: #000;
+  border: 2px solid #000;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040;
+}
+
+/* Diagram preview */
+body.win95-theme .diagram-preview {
+  background: #c0c0c0;
+  border: 2px solid #000;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040;
+}
+
+/* Switchers */
+body.win95-theme .lang-switcher {
+  background: #c0c0c0;
+  border: 2px solid #000;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040;
+}
+body.win95-theme .lang-btn {
+  background: #c0c0c0;
+  border: 2px solid #000;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040;
+}
+body.win95-theme .lang-btn.active { outline: 1px dotted #000; }
+
+/* Inputs */
+body.win95-theme input[type="file"] { display: none; }
+
+/* Window titlebar */
+body.win95-theme .win95-window-titlebar { display: flex; align-items: center; justify-content: space-between; padding: 3px 3px; background: #000080; color: #fff; border-bottom: 2px solid #000; }
+body.win95-theme .win95-window-titlebar .title-left { display: inline-flex; align-items: center; gap: 6px; }
+body.win95-theme .win95-window-titlebar .sys-icon { width: 16px; height: 16px; background: #fff; box-shadow: inset 1px 1px 0 #c0c0c0; }
+body.win95-theme .win95-window-titlebar .title-text { font-weight: 700; letter-spacing: 0.2px; }
+body.win95-theme .win95-window-titlebar .caption { display: inline-flex; gap: 2px; }
+body.win95-theme .win95-window-titlebar .btn { width: 18px; height: 18px; background: #c0c0c0; border: 1px solid #000; box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040; display: inline-block; position: relative; }
+body.win95-theme .win95-window-titlebar .btn.min::after { content: ""; position: absolute; left: 3px; right: 3px; bottom: 4px; height: 2px; background: #000; }
+body.win95-theme .win95-window-titlebar .btn.max::after { content: ""; position: absolute; inset: 3px; border: 1px solid #000; box-shadow: inset 1px 1px 0 #fff; }
+body.win95-theme .win95-window-titlebar .btn.close::before,
+body.win95-theme .win95-window-titlebar .btn.close::after { content: ""; position: absolute; left: 4px; right: 4px; top: 8px; height: 1px; background: #000; transform-origin: center; }
+body.win95-theme .win95-window-titlebar .btn.close::before { transform: rotate(45deg); }
+body.win95-theme .win95-window-titlebar .btn.close::after { transform: rotate(-45deg); }
+body.win95-theme .win95-window-titlebar .btn:active { box-shadow: inset -1px -1px 0 #fff, inset 1px 1px 0 #404040; }
+
+/* Focus rectangle */
+body.win95-theme :focus { outline: 1px dotted #000 !important; outline-offset: 1px; }
+
+/* Skin picker with previews also in Win95 */
+body.win95-theme .skin-selector.js-enhanced select { display: none; }
+body.win95-theme .skin-picker { display: block; }
+
+/* Panel header bevel inside container */
+body.win95-theme .container::before { content: none; }
+
+/* Beveled inner panels in upload area */
+body.win95-theme .upload-form { position: relative; }
+body.win95-theme .upload-form::before {
+  content: ""; position: absolute; inset: 12px; border: 2px solid #000; border-right-color: #404040; border-bottom-color: #404040; border-left-color: #fff; border-top-color: #fff;
+}
+
+/* Inputs look */
+body.win95-theme .file-browse { min-width: 110px; }
+body.win95-theme .file-name { font-size: 12px; margin-left: 8px; }
+
+/* Menubar */
+body.win95-theme .win95-menubar { display: flex; gap: 4px; padding: 2px 6px; background: #c0c0c0; border-bottom: 2px solid #000; box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040; }
+body.win95-theme .win95-menubar .menu-item { background: transparent; border: none; padding: 2px 6px; font: 12px Tahoma, Verdana, sans-serif; }
+body.win95-theme .win95-menubar .menu-item:hover { background: #000080; color: #fff; }
+
+/* Statusbar */
+body.win95-theme .win95-statusbar { display: flex; gap: 6px; padding: 2px 2px; background: #c0c0c0; border-top: 2px solid #000; box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #404040; margin-top: 8px; }
+body.win95-theme .win95-statusbar .pane { flex: 1; background: #c0c0c0; border: 1px solid #000; border-right-color: #404040; border-bottom-color: #404040; border-left-color: #fff; border-top-color: #fff; padding: 2px 6px; font: 12px Tahoma, Verdana, sans-serif; }
+body.win95-theme .win95-statusbar .pane.right { max-width: 220px; }
+
+/* Header inner panel like a group box */
+body.win95-theme .site-header { margin: 8px; padding: 12px; background: #000080; color: #fff; box-shadow: inset 1px 1px 0 #3a6ea5, inset -1px -1px 0 #000040; border: 2px solid #000; }
+body.win95-theme .site-header::before { content: ""; display: block; border: 2px solid #000; border-right-color: #404040; border-bottom-color: #404040; border-left-color: #fff; border-top-color: #fff; margin-bottom: 12px; }
+
+/* Scrollbar color approximation (limited cross-browser) */
+body.win95-theme { scrollbar-color: #c0c0c0 #008080; }
+
+/* Typography tweaks */
+@media (prefers-color-scheme: dark) {
+  body.win95-theme {
+    /* Keep classic colors even in dark mode */
+    --background-color: #008080;
+  }
+}

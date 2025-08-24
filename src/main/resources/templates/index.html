@@ -8,6 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/base.css}" href="/css/base.css" />
     <link rel="stylesheet" th:href="@{/css/skins/neobrutalist.css}" href="/css/skins/neobrutalist.css" />
     <link rel="stylesheet" th:href="@{/css/skins/glass.css}" href="/css/skins/glass.css" />
+    <link rel="stylesheet" th:href="@{/css/skins/win95.css}" href="/css/skins/win95.css" />
 </head>
 <body>
     <!-- Selector de Skins -->
@@ -17,6 +18,7 @@
             <option value="default" th:text="#{skin.elegant}">Elegant</option>
             <option value="neobrutalist" th:text="#{skin.neobrutalist}">Neobrutalist</option>
             <option value="glass" th:text="#{skin.glass}">Glass</option>
+            <option value="win95" th:text="#{skin.win95}">Windows 95</option>
         </select>
 
         <!-- Selector personalizado con opciones estilizadas -->
@@ -38,6 +40,10 @@
                     <span class="skin-chip chip-glass" aria-hidden="true"></span>
                     <span class="opt-label" th:text="#{skin.glass}">Glass</span>
                 </li>
+                <li role="option" id="skin-opt-win95" data-value="win95" class="skin-option opt-win95">
+                    <span class="skin-chip chip-win95" aria-hidden="true"></span>
+                    <span class="opt-label" th:text="#{skin.win95}">Windows 95</span>
+                </li>
             </ul>
         </div>
     </div>
@@ -53,7 +59,31 @@
     </div>
 
     <div class="container">
+        <!-- Win95 Titlebar (visible only in Win95 skin) -->
+        <div class="win95-window-titlebar" aria-hidden="true">
+            <div class="title-left">
+                <span class="sys-icon" aria-hidden="true"></span>
+                <span class="title-text" th:text="${title}">UML Generator</span>
+            </div>
+            <div class="caption">
+                <span class="btn min" title="Minimize"></span>
+                <span class="btn max" title="Maximize"></span>
+                <span class="btn close" title="Close"></span>
+            </div>
+        </div>
+
+        <!-- Win95 Menubar (decorative) -->
+        <nav class="win95-menubar" aria-hidden="true">
+            <button type="button" class="menu-item">File</button>
+            <button type="button" class="menu-item">Edit</button>
+            <button type="button" class="menu-item">Help</button>
+        </nav>
         <header class="site-header">
+            <div class="win95-caption" aria-hidden="true">
+                <span class="btn min" title="Minimize"></span>
+                <span class="btn max" title="Maximize"></span>
+                <span class="btn close" title="Close"></span>
+            </div>
             <h1 class="site-title" th:text="${title}">UML Generator</h1>
             <p class="site-description" th:text="${description}">Genera diagramas UML profesionales a partir de tu código fuente Java. Simplemente sube tu proyecto en formato .zip y obtén una visualización clara y detallada de tu arquitectura.</p>
         </header>
@@ -81,6 +111,12 @@
             <div class="diagram-preview">
                 <img th:src="@{${diagramUrl}}" th:alt="#{ui.diagram.alt}" alt="Diagrama UML" />
             </div>
+        </div>
+
+        <!-- Win95 Status bar (decorative) -->
+        <div class="win95-statusbar" aria-hidden="true">
+            <div class="pane">Ready</div>
+            <div class="pane right">UML-Generator</div>
         </div>
     </div>
 

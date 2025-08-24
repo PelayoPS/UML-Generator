@@ -1,17 +1,19 @@
 // Función para cambiar el tema
 function changeSkin() {
     const skinSelector = document.getElementById('skinSelector');
-    const body = document.body;
+    const { body } = document;
     const selectedSkin = skinSelector.value;
     
     // Remover todas las clases de temas
-    body.classList.remove('neobrutalist-theme', 'glass-theme');
+    body.classList.remove('neobrutalist-theme', 'glass-theme', 'win95-theme');
     
     // Aplicar el tema seleccionado
     if (selectedSkin === 'neobrutalist') {
         body.classList.add('neobrutalist-theme');
     } else if (selectedSkin === 'glass') {
         body.classList.add('glass-theme');
+    } else if (selectedSkin === 'win95') {
+        body.classList.add('win95-theme');
     }
     
     // Actualizar la apariencia del selector inmediatamente
@@ -41,8 +43,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const pickerBtn = document.getElementById('skinPickerButton');
         const list = document.getElementById('skinPickerList');
         if (picker && pickerBtn && list && skinSelector) {
-            // Marca de mejora para ocultar el select nativo
+            // Marca de mejora para ocultar el select nativo y usar picker siempre
             picker.parentElement.classList.add('js-enhanced');
+            try {
+                const nativeSelect = picker.parentElement.querySelector('select');
+                if (nativeSelect) {
+                    nativeSelect.setAttribute('hidden', 'true');
+                    nativeSelect.style.display = 'none';
+                    nativeSelect.setAttribute('aria-hidden', 'true');
+                }
+            } catch (_) { /* no-op */ }
 
             const setPickerUI = (value) => {
                 const labelSpan = pickerBtn.querySelector('.skin-picker__label');
@@ -52,7 +62,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
                 labelSpan.textContent = selectedLi.querySelector('.opt-label')?.textContent || '';
-                chip.className = 'skin-chip ' + (value === 'neobrutalist' ? 'chip-neo' : value === 'glass' ? 'chip-glass' : 'chip-elegant');
+                let chipClass = 'chip-elegant';
+                if (value === 'neobrutalist') {
+                    chipClass = 'chip-neo';
+                } else if (value === 'glass') {
+                    chipClass = 'chip-glass';
+                } else if (value === 'win95') {
+                    chipClass = 'chip-win95';
+                }
+                chip.className = 'skin-chip ' + chipClass;
                 list.querySelectorAll('.skin-option').forEach(li => li.setAttribute('aria-selected', li.dataset.value === value ? 'true' : 'false'));
             };
 
@@ -85,6 +103,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (skinSelector.value !== value) {
                         skinSelector.value = value;
                         changeSkin();
+                        // Asegurar que el picker siga activo tras el cambio
+                        try {
+                            picker.parentElement.classList.add('js-enhanced');
+                            const nativeSelect = picker.parentElement.querySelector('select');
+                            if (nativeSelect) {
+                                nativeSelect.setAttribute('hidden', 'true');
+                                nativeSelect.style.display = 'none';
+                            }
+                        } catch (_) { /* no-op */ }
                     } else {
                         updateSelectorAppearance(value);
                     }
@@ -96,6 +123,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Sincronizar cuando cambie el select nativo por otros medios
             skinSelector.addEventListener('change', () => setPickerUI(skinSelector.value));
+
+            // Observar cambios de clase en body (cambio de skin) para reforzar
+            const obs = new MutationObserver(() => {
+                try {
+                    picker.parentElement.classList.add('js-enhanced');
+                    const nativeSelect = picker.parentElement.querySelector('select');
+                    if (nativeSelect) {
+                        nativeSelect.setAttribute('hidden', 'true');
+                        nativeSelect.style.display = 'none';
+                    }
+                } catch (_) { /* no-op */ }
+            });
+            obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
         }
     } catch (_) { /* no-op */ }
     
