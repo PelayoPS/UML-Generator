@@ -1,0 +1,169 @@
+/* Terminal theme (Linux-like) */
+body.terminal-theme {
+  --primary-color: #00ff7f; /* retro green */
+  --secondary-color: #39ff14; /* bright green */
+  --background-color: #0b0f10; /* near-black */
+  --text-color: #c3f7d8; /* soft terminal green */
+  --border-color: #003b1f; /* dark green */
+  --hover-color: #16a34a; /* hover accent */
+  --shadow-color: rgba(0,0,0,0.6);
+}
+
+/* Page background and typography */
+body.terminal-theme {
+  background:
+    radial-gradient(1200px circle at 20% 10%, rgba(0,255,127,0.06) 0%, transparent 40%),
+    radial-gradient(1000px circle at 80% 60%, rgba(57,255,20,0.05) 0%, transparent 35%),
+    #0b0f10;
+  color: var(--text-color);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  text-rendering: optimizeLegibility;
+}
+
+/* Container as terminal window */
+body.terminal-theme .container {
+  background: #0b0f10;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.5);
+  position: relative;
+  padding-top: 42px; /* espacio para titlebar */
+}
+
+/* Terminal titlebar with traffic-light buttons */
+body.terminal-theme .container::before {
+  content: "Terminal"; /* título estático; opcionalmente cambiable en código */
+  position: absolute; top: 0; left: 0; right: 0; height: 36px;
+  background: linear-gradient(180deg, #0f1719 0%, #0b0f10 100%);
+  border-bottom: 1px solid var(--border-color);
+  border-top-left-radius: 12px; border-top-right-radius: 12px;
+  color: #8ef0b9; text-align: center; line-height: 36px; font-weight: 600; letter-spacing: .2px;
+  /* traffic light controls */
+  background-image:
+    radial-gradient(circle at 22px 18px, #ff5f56 6px, transparent 7px),
+    radial-gradient(circle at 44px 18px, #ffbd2e 6px, transparent 7px),
+    radial-gradient(circle at 66px 18px, #27c93f 6px, transparent 7px);
+  background-repeat: no-repeat;
+}
+
+/* Optional thin status line at bottom */
+body.terminal-theme .container::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
+  border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+  background: linear-gradient(180deg, rgba(0,255,127,0.06), rgba(0,255,127,0.02));
+}
+
+/* Header resembling a terminal tab */
+body.terminal-theme .site-header {
+  background: linear-gradient(180deg, #0e1517 0%, #0b0f10 100%);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+  margin-top: 4px; /* separarla del titlebar */
+}
+body.terminal-theme .site-title {
+  color: var(--primary-color);
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 12px rgba(0,255,127,0.35);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+body.terminal-theme .site-description { color: #9beeb8; }
+
+/* Prompt-like heading and blinking caret */
+@keyframes term-caret { 50% { opacity: 0; } }
+body.terminal-theme .site-title::before { content: "user@uml:~$ "; color: #9beeb8; font-weight: 400; margin-right: 6px; text-shadow: none; }
+body.terminal-theme .site-title::after { content: "▊"; margin-left: 6px; color: var(--primary-color); animation: term-caret 1s steps(2, jump-none) infinite; }
+
+/* Upload form styled as terminal panel */
+body.terminal-theme .upload-form {
+  background: #0d1214;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px #00170c;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  text-align: left;
+  position: relative;
+}
+body.terminal-theme .upload-form:hover {
+  background: #0e1416;
+  border-color: #055432;
+}
+
+/* Command line hint above the upload form */
+body.terminal-theme .upload-form::before {
+  content: "user@uml:~$ uml-generator generate --input <file.zip>";
+  display: block;
+  color: #86f3b4;
+  margin-bottom: 12px;
+}
+
+/* Present the file input row as a shell command */
+body.terminal-theme .file-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  padding-left: 12ch; /* room for prompt */
+}
+body.terminal-theme .file-input-wrapper::before {
+  content: "user@uml:~$";
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+}
+body.terminal-theme .file-browse {
+  background: #0f1719 !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--primary-color) !important;
+}
+body.terminal-theme .file-name {
+  color: #b9f3cf;
+}
+body.terminal-theme .file-name::before {
+  content: " --input ";
+  color: #86f3b4;
+}
+
+/* Make primary action look like enter */
+body.terminal-theme .action-button { font-family: inherit; }
+body.terminal-theme .action-button::before { content: "$ "; color: var(--primary-color); margin-right: 4px; }
+
+/* Buttons */
+body.terminal-theme button,
+body.terminal-theme .file-browse,
+body.terminal-theme .action-button {
+  background: #0f1719 !important;
+  color: var(--primary-color) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 0 0 1px #00170c inset, 0 10px 24px rgba(0,0,0,0.25) !important;
+  text-transform: none !important;
+}
+body.terminal-theme button:hover,
+body.terminal-theme .file-browse:hover,
+body.terminal-theme .action-button:hover {
+  background: #101c1e !important;
+  border-color: #05653b !important;
+}
+body.terminal-theme .action-button svg { fill: var(--primary-color); }
+
+/* Messages */
+body.terminal-theme .message { background: #0f1517; border: 1px solid #01331c; color: #b9f3cf; }
+
+/* Diagram preview */
+body.terminal-theme .diagram-preview { background: #0f1517; border: 1px solid #01331c; }
+
+/* Switchers */
+body.terminal-theme .lang-switcher,
+body.terminal-theme .skin-selector {
+  background: #0f1517; border: 1px solid var(--border-color); color: var(--text-color);
+}
+body.terminal-theme .lang-btn { border-color: var(--border-color); background: #0b0f10; color: var(--primary-color); }
+body.terminal-theme .lang-btn.active { box-shadow: 0 0 0 2px rgba(0,255,127,0.25); }
+
+/* Subtle scanlines CRT effect */
+body.terminal-theme .container, body.terminal-theme .upload-form, body.terminal-theme .diagram-preview {
+  background-image: repeating-linear-gradient(0deg, rgba(0,0,0,0.0), rgba(0,0,0,0.0) 2px, rgba(255,255,255,0.01) 3px);
+}
+
+/* Caret color for inputs (when added) */
+body.terminal-theme input, body.terminal-theme textarea { caret-color: var(--primary-color); }

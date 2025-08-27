@@ -5,7 +5,7 @@ function changeSkin() {
     const selectedSkin = skinSelector.value;
     
     // Remover todas las clases de temas
-    body.classList.remove('neobrutalist-theme', 'glass-theme', 'win95-theme');
+    body.classList.remove('neobrutalist-theme', 'glass-theme', 'win95-theme', 'terminal-theme');
     
     // Aplicar el tema seleccionado
     if (selectedSkin === 'neobrutalist') {
@@ -14,6 +14,8 @@ function changeSkin() {
         body.classList.add('glass-theme');
     } else if (selectedSkin === 'win95') {
         body.classList.add('win95-theme');
+    } else if (selectedSkin === 'terminal') {
+        body.classList.add('terminal-theme');
     }
     
     // Actualizar la apariencia del selector inmediatamente
@@ -69,6 +71,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     chipClass = 'chip-glass';
                 } else if (value === 'win95') {
                     chipClass = 'chip-win95';
+                } else if (value === 'terminal') {
+                    chipClass = 'chip-terminal';
                 }
                 chip.className = 'skin-chip ' + chipClass;
                 list.querySelectorAll('.skin-option').forEach(li => li.setAttribute('aria-selected', li.dataset.value === value ? 'true' : 'false'));

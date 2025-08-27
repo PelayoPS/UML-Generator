@@ -9,6 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/skins/neobrutalist.css}" href="/css/skins/neobrutalist.css" />
     <link rel="stylesheet" th:href="@{/css/skins/glass.css}" href="/css/skins/glass.css" />
     <link rel="stylesheet" th:href="@{/css/skins/win95.css}" href="/css/skins/win95.css" />
+    <link rel="stylesheet" th:href="@{/css/skins/terminal.css}" href="/css/skins/terminal.css" />
 </head>
 <body>
     <!-- Selector de Skins -->
@@ -19,6 +20,7 @@
             <option value="neobrutalist" th:text="#{skin.neobrutalist}">Neobrutalist</option>
             <option value="glass" th:text="#{skin.glass}">Glass</option>
             <option value="win95" th:text="#{skin.win95}">Windows 95</option>
+            <option value="terminal" th:text="#{skin.terminal}">Terminal</option>
         </select>
 
         <!-- Selector personalizado con opciones estilizadas -->
@@ -39,6 +41,10 @@
                 <li role="option" id="skin-opt-glass" data-value="glass" class="skin-option opt-glass">
                     <span class="skin-chip chip-glass" aria-hidden="true"></span>
                     <span class="opt-label" th:text="#{skin.glass}">Glass</span>
+                </li>
+                <li role="option" id="skin-opt-terminal" data-value="terminal" class="skin-option opt-terminal">
+                    <span class="skin-chip chip-terminal" aria-hidden="true"></span>
+                    <span class="opt-label" th:text="#{skin.terminal}">Terminal</span>
                 </li>
                 <li role="option" id="skin-opt-win95" data-value="win95" class="skin-option opt-win95">
                     <span class="skin-chip chip-win95" aria-hidden="true"></span>

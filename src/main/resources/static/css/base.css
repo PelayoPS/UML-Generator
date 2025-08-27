@@ -41,6 +41,7 @@
 .chip-neo { background: linear-gradient(145deg, #FFD93D, #FF6B6B); box-shadow: inset 0 0 0 2px #000; }
 .chip-glass { background: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(255,255,255,0.3)); backdrop-filter: blur(2px); box-shadow: inset 0 0 0 2px rgba(0,0,0,0.35); }
 .chip-win95 { background: linear-gradient(145deg, #c0c0c0, #e0e0e0); box-shadow: inset 0 0 0 2px #808080; }
+.chip-terminal { background: #00ff7f; box-shadow: inset 0 0 0 2px #003b1f; }
 
 /* Estilos por entrada para representar cada skin */
 .skin-option.opt-elegant { background: linear-gradient(135deg, rgba(31,41,55,0.92), rgba(17,24,39,0.92)); color: #e5e7eb; border-color: rgba(0,0,0,0.35); box-shadow: 0 6px 14px rgba(0,0,0,.25); }
@@ -78,6 +79,17 @@
 .skin-option.opt-win95 .opt-label { color: #000; font-family: Tahoma, Verdana, sans-serif; }
 .skin-option.opt-win95:hover { filter: brightness(1.03); }
 
+/* Terminal preview tile */
+.skin-option.opt-terminal {
+    background: #0b0f10;
+    color: #c3f7d8;
+    border: 1px solid #003b1f;
+    box-shadow: 0 0 0 1px #00170c inset, 0 8px 18px rgba(0,0,0,.35);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+.skin-option.opt-terminal .opt-label { color: #c3f7d8; }
+.skin-option.opt-terminal:hover { background: #0e1416; }
+
 /* Override solo cuando la skin activa es Glass: estilo translúcido claro */
 body.glass-theme .skin-option.opt-glass { background: linear-gradient(145deg, rgba(255,255,255,0.22), rgba(255,255,255,0.12)); border: 1px solid rgba(255,255,255,0.6); box-shadow: 0 8px 20px rgba(2,6,23,0.25); }
 body.glass-theme .skin-option.opt-glass:hover { background: linear-gradient(145deg, rgba(255,255,255,0.28), rgba(255,255,255,0.18)); box-shadow: 0 10px 24px rgba(2,6,23,0.3); }
@@ -89,6 +101,12 @@ body.neobrutalist-theme .skin-picker__list { background:#FFD93D; border:3px soli
 body.glass-theme .skin-picker__button,
 body.glass-theme .skin-picker__list { background: rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.35); border-radius:12px; backdrop-filter: blur(10px) saturate(140%); }
 body.glass-theme .skin-option:hover { background: rgba(255,255,255,0.10); }
+
+/* Terminal picker look */
+body.terminal-theme .skin-picker__button,
+body.terminal-theme .skin-picker__list {
+    background: #0b0f10; border: 1px solid #003b1f; color: #c3f7d8;
+}
 
 /* Win95 picker appearance */
 body.win95-theme .skin-picker__button,
