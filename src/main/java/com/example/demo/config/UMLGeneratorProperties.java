@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
  * Propiedades de configuración para el generador UML.
  * Centraliza todas las configuraciones del proyecto para evitar hardcoding.
  * 
+ * 
  * @author @PelayoPS
  */
 @Component
